@@ -1,0 +1,52 @@
+##
+##  cmakelists.txt
+##  created by Harri Hilding Smatt on 2026-01-14
+##
+
+cmake_minimum_required(VERSION 3.20)
+
+set(TARGET_NAME Brainsugar)
+
+project(${TARGET_NAME} VERSION 1.0.0 LANGUAGES CXX Swift)
+
+set(SOURCE_FILES
+    src/main_app.swift
+    src/main_view.swift
+    src/render_view.swift
+)
+
+set(HEADER_FILES
+    inc/types.h
+    inc/types-bridging-header.h
+)
+
+set(METAL_FILES
+    src/render.metal
+)
+set_source_files_properties(${METAL_FILES} PROPERTIES LANGUAGE METAL)
+
+set(RESOURCE_FILES
+    res/AppIcon.icns
+    res/brainsugar_bg.jpg
+    res/brainsugar_icon.jpg
+    res/dj_fred.mp3
+)
+
+add_executable(${TARGET_NAME}
+    MACOSX_BUNDLE
+    ${METAL_FILES}
+    ${SOURCE_FILES}
+    ${HEADER_FILES}
+    ${RESOURCE_FILES}
+)
+
+set_target_properties(${TARGET_NAME} PROPERTIES
+    BUNDLE True
+    MACOSX_BUNDLE_ICON_FILE "AppIcon"
+    MACOSX_BUNDLE_IDENTIFIER "my.style.${TARGET_NAME}"
+    MACOSX_BUNDLE_GUI_IDENTIFIER "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    MACOSX_BUNDLE_BUNDLE_NAME "${TARGET_NAME}"
+    MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
+    RESOURCE "${RESOURCE_FILES}"
+)
